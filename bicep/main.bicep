@@ -1,8 +1,22 @@
+param location string = resourceGroup().location
+param appServicePlanName string = 'toy-product-starter-${uniqueString(resourceGroup().id)}'
+param webAppName string = 'toy-product-app-${uniqueString(resourceGroup().id)}'
+
+@allowed([
+  'dev'
+  'prod'
+])
+param environmentType string
+
+var theStorageAccountName = 'toylaunchstorage'
+var storageAccountSkuName = (environmentType == 'prod') ? 'Standard_GRS' : 'Standard_LRS'
+var appServicePlanSkuName = (environmentType == 'prod') ? 'P2V3' : 'F1'
+
 resource storageAccount 'Microsoft.Storage/storageAccounts@2024-01-01' = {
-  name: 'toylaunchstorage'
-  location: 'eastus'
+  name: theStorageAccountName
+  location: location
   sku: {
-    name: 'Standard_LRS'
+    name: storageAccountSkuName
   }
   kind: 'StorageV2'
   properties: {
@@ -12,16 +26,16 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2024-01-01' = {
 }
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2024-11-01' = {
-  name: 'toy-product-starter'
-  location: 'eastus'
+  name: appServicePlanName
+  location: location
   sku:{
-    name: 'F1'
+    name: appServicePlanSkuName
   }
 }
 
 resource webApp 'Microsoft.Web/sites@2024-11-01' = {
-  name: 'toy-product-app'
-  location: 'eastus'
+  name: webAppName
+  location: location
   properties: {
     serverFarmId: appServicePlan.id
     httpsOnly: true
