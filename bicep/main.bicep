@@ -34,5 +34,13 @@ module appService 'modules/appService.bicep' = {
   }
 }
 
+module vm 'modules/vm.bicep' = {
+  name: 'virtualMachines'
+  params: {
+    location: location
+    vmName: 'ToyVM'
+  }
+}
+
 output webAppHostName string = appService.outputs.webAppHostName
 output storageAccountId string = database.outputs.storageAccountId
