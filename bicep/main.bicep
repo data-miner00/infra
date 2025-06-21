@@ -1,6 +1,8 @@
 param location string = resourceGroup().location
 param appServicePlanName string = 'toy-product-starter-${uniqueString(resourceGroup().id)}'
 param webAppName string = 'toy-product-app-${uniqueString(resourceGroup().id)}'
+param cosmosDbName string
+param cosmosDbDatabaseThroughput int
 
 @allowed([
   'dev'
@@ -17,6 +19,8 @@ module database 'modules/database.bicep' = {
     storageAccountName: theStorageAccountName
     storageAccountSkuName: storageAccountSkuName
     location: location
+    cosmosDbName: cosmosDbName
+    cosmosDbDatabaseThroughput: cosmosDbDatabaseThroughput
   }
 }
 
