@@ -11,6 +11,9 @@ param webAppName string
 @allowed([ 'dev', 'prod' ])
 param environmentType string
 
+@description('Tags to apply to all resources.')
+param tags object = {}
+
 var appServicePlanSkuName = (environmentType == 'prod') ? 'P2V3' : 'F1'
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2024-11-01' = {
@@ -19,6 +22,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2024-11-01' = {
   sku: {
     name: appServicePlanSkuName
   }
+  tags: tags
 }
 
 resource webApp 'Microsoft.Web/sites@2024-11-01' = {
@@ -28,6 +32,7 @@ resource webApp 'Microsoft.Web/sites@2024-11-01' = {
     serverFarmId: appServicePlan.id
     httpsOnly: true
   }
+  tags: tags
 }
 
 @description('The default hostname of the web app.')

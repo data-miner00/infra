@@ -3,6 +3,7 @@ param appServicePlanName string = 'toy-product-starter-${uniqueString(resourceGr
 param webAppName string = 'toy-product-app-${uniqueString(resourceGroup().id)}'
 param cosmosDbName string
 param cosmosDbDatabaseThroughput int
+param tags object = {}
 
 @allowed([
   'dev'
@@ -21,6 +22,7 @@ module database 'modules/database.bicep' = {
     location: location
     cosmosDbName: cosmosDbName
     cosmosDbDatabaseThroughput: cosmosDbDatabaseThroughput
+    tags: tags
   }
 }
 
@@ -31,6 +33,7 @@ module appService 'modules/appService.bicep' = {
     appServicePlanName: appServicePlanName
     webAppName: webAppName
     environmentType: environmentType
+    tags: tags
   }
 }
 
@@ -39,6 +42,7 @@ module vm 'modules/vm.bicep' = {
   params: {
     location: location
     vmName: 'ToyVM'
+    tags: tags
   }
 }
 

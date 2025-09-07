@@ -1,6 +1,7 @@
 param vmName string
 param location string
 param vmSize string = 'Standard_D2s_v3'
+param tags object = {}
 
 resource vm 'Microsoft.Compute/virtualMachines@2024-11-01' = {
   name: vmName
@@ -17,10 +18,12 @@ resource vm 'Microsoft.Compute/virtualMachines@2024-11-01' = {
       ]
     }
   }
+  tags: tags
 
   resource installCustomScriptsExtension 'extensions' = {
     name: 'InstallCustomScript'
     location: location
+    tags: tags
   }
 }
 
@@ -28,6 +31,7 @@ resource installCustomScriptsExtension2 'Microsoft.Compute/virtualMachines/exten
   parent: vm
   name: 'InstallCustomScript2'
   location: location
+  tags: tags
 }
 
 resource vnet 'Microsoft.Network/virtualNetworks@2024-05-01' existing = {
@@ -51,6 +55,7 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2024-07-01' = {
       }
     ]
   }
+  tags: tags
 }
 
 output vmInstallCustomScriptsId string = vm::installCustomScriptsExtension.id

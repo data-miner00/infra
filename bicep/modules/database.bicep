@@ -3,6 +3,7 @@ param location string
 param storageAccountSkuName string
 param cosmosDbName string
 param cosmosDbDatabaseThroughput int
+param tags object = {}
 
 var databaseName = 'Toy'
 var containerName = 'Toys'
@@ -19,6 +20,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2024-01-01' = {
     accessTier: 'Hot'
     allowBlobPublicAccess: false
   }
+  tags: tags
 }
 
 resource cosmosDb 'Microsoft.DocumentDB/databaseAccounts@2025-04-15' = {
@@ -32,6 +34,7 @@ resource cosmosDb 'Microsoft.DocumentDB/databaseAccounts@2025-04-15' = {
       }
     ]
   }
+  tags: tags
 
   resource cosmosDbDatabase 'sqlDatabases' = {
     name: databaseName
@@ -43,6 +46,7 @@ resource cosmosDb 'Microsoft.DocumentDB/databaseAccounts@2025-04-15' = {
         throughput: cosmosDbDatabaseThroughput
       }
     }
+    tags: tags
 
     resource container 'containers' = {
       name: containerName
@@ -58,6 +62,7 @@ resource cosmosDb 'Microsoft.DocumentDB/databaseAccounts@2025-04-15' = {
         }
         options: {}
       }
+      tags: tags
     }
   }
 }
