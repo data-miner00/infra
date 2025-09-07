@@ -1,11 +1,14 @@
+@description('Location for all resources.')
 param location string
+
+@description('Name of the App Service Plan.')
 param appServicePlanName string
+
+@description('Name of the Web App.')
 param webAppName string
 
-@allowed([
-  'dev'
-  'prod'
-])
+@description('Environment of the deployment.')
+@allowed([ 'dev', 'prod' ])
 param environmentType string
 
 var appServicePlanSkuName = (environmentType == 'prod') ? 'P2V3' : 'F1'
@@ -27,4 +30,5 @@ resource webApp 'Microsoft.Web/sites@2024-11-01' = {
   }
 }
 
+@description('The default hostname of the web app.')
 output webAppHostName string = webApp.properties.defaultHostName
