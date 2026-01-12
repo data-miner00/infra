@@ -13,7 +13,9 @@ param tags object = {}
 ])
 param environmentType string
 
-var theStorageAccountName = 'toylaunchstorage${environmentType}'
+func constructStorageAccountName(prefix 'com' | 'org', componentName string, environment string) string => '${prefix}${componentName}${environment}'
+
+var theStorageAccountName = constructStorageAccountName('com', 'toystore', environmentType)
 var storageAccountSkuName = (environmentType == 'prod') ? 'Standard_GRS' : 'Standard_LRS'
 
 module database 'modules/database.bicep' = {
