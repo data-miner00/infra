@@ -1,3 +1,5 @@
+metadata description = 'The entry point for provisioning Azure resources.'
+
 param location string = resourceGroup().location
 param appServicePlanName string = 'toy-product-starter-${uniqueString(resourceGroup().id)}'
 param webAppName string = 'toy-product-app-${uniqueString(resourceGroup().id)}'

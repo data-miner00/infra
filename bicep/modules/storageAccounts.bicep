@@ -1,3 +1,6 @@
+metadata description = 'Creates multiple storage accounts.'
+
+// resource group is the default value so don't need to specify here
 targetScope =  'resourceGroup'
 
 @allowed([

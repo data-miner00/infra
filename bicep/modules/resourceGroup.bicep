@@ -1,3 +1,5 @@
+metadata description = 'Creates a new resource group in UKSouth region.'
+
 targetScope = 'subscription'
 
 param resourceGroupName string

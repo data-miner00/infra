@@ -1,3 +1,5 @@
+metadata description = 'Provisions VM in an existing VNet'
+
 param vmName string
 param location string
 param vmSize string = 'Standard_D2s_v3'

@@ -1,3 +1,5 @@
+metadata description = 'Creates a new web app along with a new app service plan'
+
 @description('Location for all resources.')
 param location string
 

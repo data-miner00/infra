@@ -1,3 +1,5 @@
+metadata description = 'Creates a new storage account and a Cosmos DB'
+
 param storageAccountName string
 param location string
 param storageAccountSkuName string

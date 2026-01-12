@@ -1,3 +1,5 @@
+metadata description = 'Example of creating a custom type in Bicep'
+
 param id string
 param name string
 param email string
