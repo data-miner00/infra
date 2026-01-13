@@ -26,6 +26,7 @@ resource enforcedStorageAccounts 'Microsoft.Storage/storageAccounts@2024-01-01' 
   properties: {
     accessTier: 'Hot'
     allowBlobPublicAccess: false
+    publicNetworkAccess: 'Disabled'
   }
 }]
 
@@ -39,5 +40,9 @@ resource additionalStorageAccount 'Microsoft.Storage/storageAccounts@2024-01-01'
   properties: {
     accessTier: 'Hot'
     allowBlobPublicAccess: false
+    publicNetworkAccess: 'Disabled'
   }
+  dependsOn: [
+    enforcedStorageAccounts[0]
+  ]
 }
