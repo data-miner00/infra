@@ -1,3 +1,3 @@
 # Infra
 
-Learning and managing infrastructures with Terraform.
+Learning and managing infrastructures with Terraform and Bicep (and Docker?).

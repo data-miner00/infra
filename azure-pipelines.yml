@@ -1,0 +1,52 @@
+name: $(semanticVersion)-build$(rev:rrr)
+
+trigger:
+  - master
+
+pool: default
+
+variables:
+  buildArtifactStaging: "$(Build.ArtifactStagingDirectory)"
+  bicepDirectory: &bicep "bicep"
+  mainBicepFile: main.bicep
+  devBicepparamFile: main.dev.bicepparam
+  prodBicepparamFile: main.prod.bicepparam
+
+steps:
+  - task: CmdLine@2
+    inputs:
+      script: |
+        echo  'Default Working Directory: $(System.DefaultWorkingDirectory)'
+        echo  'Pipeline Workspace: $(Pipeline.Workspace)'
+        dir
+    displayName: Show working directory
+
+  - task: CmdLine@2
+    displayName: Build main Bicep file
+    workingDirectory: *bicep
+    inputs:
+      script: az bicep build --file $(mainBicepFile) --outdir $(buildArtifactStaging)
+
+  - task: CmdLine@2
+    displayName: Build dev Bicep parameters file
+    workingDirectory: *bicep
+    inputs:
+      script: az bicep build-params --file $(devBicepparamFile) --outdir $(buildArtifactStaging)
+
+  - task: CmdLine@2
+    displayName: Build prod Bicep parameters file
+    workingDirectory: *bicep
+    inputs:
+      script: az bicep build-params --file $(prodBicepparamFile) --outdir $(buildArtifactStaging)
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: "$(buildArtifactStaging)"
+      Contents: "**/*"
+      TargetFolder: drop
+    displayName: "Copy files to drop folder"
+
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish Artifact: drop"
+    inputs:
+      PathtoPublish: drop
