@@ -23,21 +23,24 @@ steps:
 
   - task: CmdLine@2
     displayName: Build main Bicep file
-    workingDirectory: "$(bicepDirectory)"
     inputs:
       script: az bicep build --file $(mainBicepFile) --outdir $(buildArtifactStaging)
+      workingDirectory: "$(bicepDirectory)"
+      failOnStderr: true
 
   - task: CmdLine@2
     displayName: Build dev Bicep parameters file
-    workingDirectory: "$(bicepDirectory)"
     inputs:
       script: az bicep build-params --file $(devBicepparamFile) --outdir $(buildArtifactStaging)
+      workingDirectory: "$(bicepDirectory)"
+      failOnStderr: true
 
   - task: CmdLine@2
     displayName: Build prod Bicep parameters file
-    workingDirectory: "$(bicepDirectory)"
     inputs:
       script: az bicep build-params --file $(prodBicepparamFile) --outdir $(buildArtifactStaging)
+      workingDirectory: "$(bicepDirectory)"
+      failOnStderr: true
 
   - task: CopyFiles@2
     inputs:
