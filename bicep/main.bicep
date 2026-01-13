@@ -50,5 +50,13 @@ module vm 'modules/vm.bicep' = {
   }
 }
 
+module vnet 'modules/vnet.bicep' = {
+  name: 'virtualNetwork'
+  params: {
+    environmentName: environmentType
+    location: location
+  }
+}
+
 output webAppHostName string = appService.outputs.webAppHostName
 output storageAccountId string = database.outputs.storageAccountId
