@@ -1,5 +1,7 @@
 metadata description = 'The entry point for provisioning Azure resources.'
 
+import { constructStorageAccountName } from 'modules/mystdlib.bicep'
+
 param location string = resourceGroup().location
 param appServicePlanName string = 'toy-product-starter-${uniqueString(resourceGroup().id)}'
 param webAppName string = 'toy-product-app-${uniqueString(resourceGroup().id)}'
@@ -12,8 +14,6 @@ param tags object = {}
   'prod'
 ])
 param environmentType string
-
-func constructStorageAccountName(prefix 'com' | 'org', componentName string, environment string) string => '${prefix}${componentName}${environment}'
 
 var theStorageAccountName = constructStorageAccountName('com', 'toystore', environmentType)
 var storageAccountSkuName = (environmentType == 'prod') ? 'Standard_GRS' : 'Standard_LRS'
